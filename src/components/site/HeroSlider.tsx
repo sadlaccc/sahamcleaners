@@ -35,6 +35,8 @@ export function HeroSlider() {
     return () => window.clearInterval(timer);
   }, []);
 
+  const current = slides[active] as (typeof slides)[number];
+
   return (
     <section className="relative h-[70vh] w-full overflow-hidden bg-navy">
       {slides.map((slide, index) => (
@@ -55,11 +57,11 @@ export function HeroSlider() {
         <div className="container-page w-full">
           <div className="max-w-2xl">
             <h1 className="mb-6 font-display text-5xl font-light leading-tight text-navy-foreground md:text-7xl">
-              {slides[active].lead}
+              {current.lead}
               <br />
-              <span className="font-semibold">{slides[active].emphasis}</span>
+              <span className="font-semibold">{current.emphasis}</span>
             </h1>
-            <p className="mb-8 max-w-lg text-lg text-navy-foreground/75">{slides[active].copy}</p>
+            <p className="mb-8 max-w-lg text-lg text-navy-foreground/75">{current.copy}</p>
             <div className="flex gap-4">
               <Link
                 to="/contact"
