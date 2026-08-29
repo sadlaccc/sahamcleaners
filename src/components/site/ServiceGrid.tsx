@@ -10,7 +10,8 @@ export function ServiceColumn({ title, services }: { title: string; services: Se
         {services.map((service, index) => (
           <div
             key={service.slug}
-            className="border border-border bg-surface/60 p-6 transition-colors hover:border-primary/30"
+            id={service.slug}
+            className="scroll-mt-28 border border-border bg-surface/60 p-6 transition-colors hover:border-primary/30"
           >
             <div className="mb-4 font-bold italic text-primary">
               {String(index + 1).padStart(2, "0")}
