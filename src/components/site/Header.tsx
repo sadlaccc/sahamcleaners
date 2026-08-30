@@ -32,10 +32,9 @@ export function Header() {
     };
   }, [mobileOpen]);
 
-  const accountLink = {
-    to: isAdmin ? ("/admin" as const) : ("/auth" as const),
-    label: isAdmin ? "Admin Dashboard" : "Staff Login",
-  };
+  const accountLink = isAdmin
+    ? { to: "/admin" as const, label: "Admin Dashboard" }
+    : null;
 
   return (
     <nav className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-md">
