@@ -2,7 +2,6 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable/index";
 import { Logo } from "@/components/site/Logo";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -27,10 +26,8 @@ export const Route = createFileRoute("/auth")({
 function AuthPage() {
   const navigate = useNavigate();
   const { session } = useAuth();
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [fullName, setFullName] = useState("");
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
@@ -41,39 +38,14 @@ function AuthPage() {
     event.preventDefault();
     setBusy(true);
     try {
-      if (mode === "signin") {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        toast.success("Signed in");
-      } else {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            emailRedirectTo: window.location.origin,
-            data: { full_name: fullName },
-          },
-        });
-        if (error) throw error;
-        toast.success("Account created", { description: "Check your email to confirm." });
-      }
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+      toast.success("Signed in");
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Authentication failed");
     } finally {
       setBusy(false);
     }
-  };
-
-  const google = async () => {
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
-    });
-    if (result.error) {
-      toast.error("Google sign-in failed");
-      return;
-    }
-    if (result.redirected) return;
-    void navigate({ to: "/admin" });
   };
 
   return (
@@ -83,24 +55,12 @@ function AuthPage() {
           <Logo />
         </div>
         <div className="border border-border bg-card p-8">
-          <h1 className="font-display text-2xl">
-            {mode === "signin" ? "Staff sign in" : "Create an account"}
-          </h1>
+          <h1 className="font-display text-2xl">Staff sign in</h1>
           <p className="mt-2 text-sm text-muted-foreground">
             Access to the management console is granted by an administrator.
           </p>
 
           <form className="mt-6 grid gap-4" onSubmit={submit}>
-            {mode === "signup" && (
-              <label className="grid gap-2 text-sm font-medium">
-                Full name
-                <input
-                  value={fullName}
-                  onChange={(event) => setFullName(event.target.value)}
-                  className="border border-input bg-background px-4 py-3 text-sm outline-none focus:border-primary"
-                />
-              </label>
-            )}
             <label className="grid gap-2 text-sm font-medium">
               Email
               <input
@@ -127,25 +87,9 @@ function AuthPage() {
               disabled={busy}
               className="rounded-sm bg-primary px-6 py-3 font-semibold text-primary-foreground disabled:opacity-60"
             >
-              {mode === "signin" ? "Sign in" : "Sign up"}
+              Sign in
             </button>
           </form>
-
-          <button
-            type="button"
-            onClick={google}
-            className="mt-3 w-full border border-input px-6 py-3 text-sm font-medium transition-colors hover:bg-accent"
-          >
-            Continue with Google
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
-            className="mt-6 w-full text-sm text-primary"
-          >
-            {mode === "signin" ? "Need an account? Sign up" : "Already have an account? Sign in"}
-          </button>
         </div>
       </div>
     </div>
