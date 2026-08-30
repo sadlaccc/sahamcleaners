@@ -69,8 +69,8 @@ export function Header() {
             </button>
 
             {megaOpen && (
-              <div className="absolute left-1/2 top-full w-[min(72rem,90vw)] -translate-x-1/2 pt-4">
-                <div className="grid gap-10 border border-border bg-background p-8 shadow-xl lg:grid-cols-[1fr_1fr_16rem]">
+              <div className="fixed left-0 right-0 top-20 px-6">
+                <div className="container-page grid gap-10 border border-border bg-background p-8 shadow-xl lg:grid-cols-[1fr_1fr_16rem]">
                   <MegaColumn
                     title="Commercial Solutions"
                     services={commercialServices}
