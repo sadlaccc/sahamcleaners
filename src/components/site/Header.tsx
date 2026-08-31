@@ -114,12 +114,14 @@ export function Header() {
             </Link>
           ))}
 
-          <Link
-            to={accountLink.to}
-            className="rounded-full bg-navy px-4 py-2 text-xs text-navy-foreground transition-opacity hover:opacity-90"
-          >
-            {accountLink.label}
-          </Link>
+          {accountLink && (
+            <Link
+              to={accountLink.to}
+              className="rounded-full bg-navy px-4 py-2 text-xs text-navy-foreground transition-opacity hover:opacity-90"
+            >
+              {accountLink.label}
+            </Link>
+          )}
         </div>
 
         {/* Mobile controls */}
@@ -193,12 +195,14 @@ export function Header() {
               </Link>
             ))}
 
-            <Link
-              to={accountLink.to}
-              className="mt-4 bg-navy px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-navy-foreground"
-            >
-              {accountLink.label}
-            </Link>
+            {accountLink && (
+              <Link
+                to={accountLink.to}
+                className="mt-4 bg-navy px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-navy-foreground"
+              >
+                {accountLink.label}
+              </Link>
+            )}
           </div>
         </div>
       )}
